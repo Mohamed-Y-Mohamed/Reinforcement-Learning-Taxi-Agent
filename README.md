@@ -1,103 +1,48 @@
 # Reinforcement Learning Taxi Agent
 
-This repository contains an implementation of a **Reinforcement Learning (Q-Learning)** algorithm and a **Multilayer Perceptron (MLP)** for controlling a robot taxi agent in a simulated environment. The project uses the `Taxi-v3` environment provided by the Gymnasium API and demonstrates how an agent learns to efficiently pick up and drop off passengers while avoiding illegal actions and minimizing steps.
-
-## Description
-
-The project addresses the **Taxi Problem**, where the objective is for a robot taxi to:
-1. Navigate a 5x5 grid environment.
-2. Pick up a passenger from a designated location.
-3. Drop off the passenger at their specified destination.
-
-The solution is divided into two main components:
-1. **Q-Learning**: A reinforcement learning approach to train the agent by learning optimal Q-values based on rewards and penalties.
-2. **Neural Network Control**: A Multilayer Perceptron (MLP) trained on the Q-learning data to predict the next optimal action for the taxi.
+This repository contains a Jupyter notebook that trains a Q-learning policy for Gymnasium's `Taxi-v3` environment, uses the learned Q-table to create labelled state/action data, and trains a scikit-learn multilayer perceptron to imitate that policy.
 
 ## Features
 
-- **Q-Learning Implementation**: 
-  - Custom implementation of the Q-learning algorithm.
-  - Hyperparameters such as learning rate, discount factor, and exploration rate are tunable for optimization.
+- Train a tabular Q-learning agent with configurable alpha, gamma and epsilon values.
+- Apply an additional visit penalty during Q-value updates.
+- Plot episode rewards during Q-learning training.
+- Save and load the learned Q-table with `pickle`.
+- Generate labelled state/action samples from the learned Q-table.
+- Train an `MLPClassifier` on the generated state/action dataset.
+- Report accuracy, weighted F1 score, a confusion matrix and per-class accuracy.
+- Evaluate the MLP policy over multiple Taxi-v3 episodes and plot reward/step totals.
+- Render Taxi-v3 with Gymnasium's human render mode.
 
-- **MLP-Based Control**:
-  - Uses the `sklearn` library to train a neural network to predict the agent's actions.
-  - Supports performance evaluation using metrics like accuracy, F1-score, and confusion matrices.
+## Tech stack
 
-- **Visualizations**:
-  - Tracks rewards and steps over episodes.
-  - Provides insights into training progress through plots and cumulative metrics.
+| Area | Technology |
+|---|---|
+| Language | Python |
+| Environment | Gymnasium `Taxi-v3` |
+| Reinforcement learning | NumPy Q-table implementation |
+| Neural network | scikit-learn `MLPClassifier` |
+| Visualisation | Matplotlib |
+| Format | Jupyter Notebook |
 
-- **Policy Evaluation**:
-  - Evaluates the trained Q-learning and MLP policies over multiple episodes.
-  - Includes graphical rendering of the taxi's actions in the environment.
+## Requirements
 
-## Technologies Used
+The repository has no `requirements.txt` or other dependency manifest. The notebook imports NumPy, Gymnasium, scikit-learn and Matplotlib.
 
-- **Python**: Main programming language.
-- **Gymnasium API**: For the `Taxi-v3` environment simulation.
-- **Scikit-learn**: For the implementation of the Multilayer Perceptron.
-- **Matplotlib**: For plotting metrics and training results.
+## Running
 
-## Usage
+```bash
+jupyter notebook "APPLIED ROBOTICS.ipynb"
+```
 
-1. **Clone the Repository**:
-    ```bash
-    git clone https://github.com/your-username/Reinforcement-Learning-Taxi-Agent.git
-    cd Reinforcement-Learning-Taxi-Agent
-    ```
+Run the notebook cells in order. The main training cell creates `Taxi-v3` with `render_mode="human"`, trains for 3,000 episodes, writes `q_table.pkl`, trains the MLP and then evaluates the MLP policy.
 
-2. **Install Dependencies**:
-    Install the required libraries using pip:
-    ```bash
-    pip install -r requirements.txt
-    ```
+The previous README referred to `taxi_agent.py`, `requirements.txt` and `example_plot.png`; none of those files exists in this repository, so those instructions have been removed.
 
-3. **Run the Code**:
-    - Train the Q-learning agent and evaluate its performance:
-      ```bash
-      python taxi_agent.py
-      ```
+## Testing
 
-4. **Customize Parameters**:
-    - Modify parameters such as `gamma`, `alpha`, and `epsilon` in the script to experiment with the learning behavior.
+There is no separate automated test suite. Model evaluation is performed inside the notebook using classification metrics and Taxi-v3 evaluation episodes.
 
-## Example Output
+## Licence
 
-- **Training Metrics**:
-    ```
-    Episode 1: Total Reward: -875, Steps Taken: 200
-    Episode 10: Total Reward: -596, Steps Taken: 200
-    ...
-    ```
-
-- **Visualizations**:
-    - Plot of total rewards and steps taken per episode:
-
-    ![Training Performance](example_plot.png)
-
-- **Environment Render**:
-    Example of the taxi environment during evaluation:
-    ```
-    +---------+
-    |R: | : :G|
-    | : | : : |
-    | : : : : |
-    | | : | : |
-    |Y| : |B: |
-    +---------+
-    ```
-
-## Future Enhancements
-
-- Experiment with advanced neural network architectures (e.g., Convolutional Neural Networks).
-- Implement additional reward structures for better performance.
-- Extend the project to continuous environments using Proximal Policy Optimization (PPO).
-
-## License
-
-This project is licensed under the MIT License.
-
-## Acknowledgments
-
-- The `Gymnasium API` for providing the `Taxi-v3` environment.
-- Reinforcement learning concepts adapted from Sutton and Barto's *Reinforcement Learning: An Introduction*.
+MIT. See [LICENSE](LICENSE).
